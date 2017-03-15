@@ -70,7 +70,7 @@ public class ClientCorreu {
 
             store.connect("pop3.live.com", 995, mailEmisor, pass);
 
-            // objeto folder i lo abrimoscreate the folder object and open it
+            // objeto folder i lo abrimos
             Folder emailFolder = store.getFolder("INBOX");
             emailFolder.open(Folder.READ_ONLY);
 
@@ -79,14 +79,13 @@ public class ClientCorreu {
             System.out.println("messages.length---" + messages.length);
 
             // los 10 ultimos mensajes
-            for (int i = 0; i < 10; i++) {
+            for (int i = messages.length - 10; i < messages.length; i++) {
                 Message message = messages[i];
                 System.out.println("---------------------------------");
                 System.out.println("Email Number " + (i + 1));
                 System.out.println("Subject: " + message.getSubject());
                 System.out.println("From: " + message.getFrom()[0]);
                 System.out.println("Text: " + message.getContent().toString());
-
             }
 
             //cerramos el store y el folder
