@@ -1,5 +1,6 @@
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Properties;
@@ -85,7 +86,8 @@ public class ClientCorreu {
                 System.out.println("Email Number " + (i + 1));
                 System.out.println("Subject: " + message.getSubject());
                 System.out.println("From: " + message.getFrom()[0]);
-                System.out.println("Text: " + message.getContent().toString());
+                System.out.println("Text: " + textMsg( message ) );
+
             }
 
             //cerramos el store y el folder
@@ -99,5 +101,31 @@ public class ClientCorreu {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String textMsg(Message msg) throws MessagingException, IOException {
+        String contentType = msg.getContentType();
+        String messageContent="";
+
+        if ( contentType.contains("multipart") ) {
+
+            Multipart multiPart = (Multipart) msg.getContent();
+
+            int numberOfParts = multiPart.getCount();
+
+            for (int partCount = 0; partCount < numberOfParts; partCount++) {
+
+                MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);
+                messageContent = part.getContent().toString();
+            }
+        }
+        else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
+
+            Object content = msg.getContent();
+            if (content != null) {
+                messageContent = content.toString();
+            }
+        }
+        return messageContent;
     }
 }
