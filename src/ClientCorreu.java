@@ -15,6 +15,10 @@ public class ClientCorreu {
     private Session mailSession;
     private MimeMessage genMailMessage;
 
+    private String mailEmisor = "";
+    private String pass = "";
+    private String mailReceptor = "";
+
 
     public ClientCorreu() {
         initialize();
@@ -43,15 +47,13 @@ public class ClientCorreu {
 
         genMailMessage = new MimeMessage( mailSession );
 
-        // añadir email del destinatario en InternetAddress
-        genMailMessage.addRecipient( Message.RecipientType.TO, new InternetAddress("") );
+        genMailMessage.addRecipient( Message.RecipientType.TO, new InternetAddress( mailReceptor ) );
         genMailMessage.setSubject( subject );
         genMailMessage.setContent( body, "text/html");
         System.out.println("Mail Session has been created successfully..");
 
         Transport transport = mailSession.getTransport("smtp");
-        // añadir el correo hotmail y el pass de la cuenta de la que se enviara el correo
-        transport.connect("smtp.live.com","","");
+        transport.connect("smtp.live.com", mailEmisor, pass );
         transport.sendMessage( genMailMessage, genMailMessage.getAllRecipients() );
         transport.close();
 
