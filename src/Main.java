@@ -20,7 +20,7 @@ public class Main {
         do{
             System.out.println("Elige una opcion:");
             System.out.println("1-Escribir correo");
-            System.out.println("2-Leer correo");
+            System.out.println("2-Leer correo (10 ultimos mensajes)");
             try{
                 i = in.nextInt();
             }catch( Exception e){
@@ -39,7 +39,7 @@ public class Main {
         switch ( opcio ){
             case 1 :    sendMsg();
                 break;
-            case 2 :
+            case 2 :    cc.getMessages();
                 break;
             case 0 : return true;
             default:
