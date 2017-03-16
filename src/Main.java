@@ -22,6 +22,7 @@ public class Main {
             System.out.println("Elige una opcion:");
             System.out.println("1-Escribir correo");
             System.out.println("2-Leer correo (10 ultimos mensajes)");
+            System.out.println("0-Salir");
             try{
                 i = in.nextInt();
             }catch( Exception e){
@@ -60,26 +61,41 @@ public class Main {
         }
     }
 
+    /** Metodo para añadir el asunto del mensaje
+     *
+     * @return
+     */
     private static String asunto(){
         System.out.println("Escribe el asunto del mensaje:");
         String str = instr.nextLine();
         return str;
     }
+
+    /** Metodo para añadir el mensaje
+     *
+     * @return
+     */
     private static String mensaje(){
         System.out.println("Escribe el mensaje: ( todo en una linea )");
         String str = instr.nextLine();
         return str;
     }
 
+    /** Metodo para añadir fichero al mensaje
+     *
+     * @return
+     */
     private static String fichero(){
         char c;
         do{
             System.out.println("Desea añadir un fichero? (s/n)");
             c = instr.next().charAt( 0 );
         }while( c != 's' && c != 'n' );
-        String str;
-        File f;
+
+        // en caso que se desee añadir fichero
         if( c == 's' ){
+            String str;
+            File f;
             do{
                 System.out.println("Indica el path del fichero:");
                 str = instr.nextLine();

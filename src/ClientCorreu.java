@@ -28,6 +28,9 @@ public class ClientCorreu {
         initialize();
     }
 
+    /** Inicializa el gestor de correo hotmail
+     *
+     */
     private void initialize(){
 
         mailProperties = System.getProperties();
@@ -138,6 +141,13 @@ public class ClientCorreu {
         }
     }
 
+    /** Extrae el texto del mensaje
+     *
+     * @param msg
+     * @return
+     * @throws MessagingException
+     * @throws IOException
+     */
     private static String textMsg(Message msg) throws MessagingException, IOException {
         String contentType = msg.getContentType();
         String messageContent="";
