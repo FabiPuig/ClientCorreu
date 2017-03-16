@@ -1,7 +1,11 @@
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -47,14 +51,45 @@ public class ClientCorreu {
 
     }
 
-    public void setMessage( String subject, String body ) throws MessagingException {
+    public void setMessage( String subject, String body, String path ) throws MessagingException {
 
 
         genMailMessage = new MimeMessage( mailSession );
 
         genMailMessage.addRecipient( Message.RecipientType.TO, new InternetAddress( mailReceptor ) );
         genMailMessage.setSubject( subject );
-        genMailMessage.setContent( body, "text/html");
+
+
+        // si hay path que incluya el texto y el fichero en el mensaje. en caso contrario que simplemente incluya el texto
+        if( path != null){
+
+            System.out.println("tiene path");
+            // creamos parte de mensaje
+            BodyPart messageBodyPart = new MimeBodyPart();
+
+            // añadimos el texto/cuerpo del mensaje
+            messageBodyPart.setText( body );
+
+            // crea mensaje multipart
+            Multipart multipart = new MimeMultipart();
+
+            // añadimos el texto al multipart
+            multipart.addBodyPart(messageBodyPart);
+
+            // añadimos el fichero
+            messageBodyPart = new MimeBodyPart();
+            DataSource source = new FileDataSource( path );
+
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName( source.getName() );
+            multipart.addBodyPart(messageBodyPart);
+
+            // añadimos el multipart al contenido
+            genMailMessage.setContent(multipart);
+        }else{
+            genMailMessage.setContent( body, "text/html");
+        }
+
         System.out.println("Mail Session has been created successfully..");
 
         Transport transport = mailSession.getTransport("smtp");

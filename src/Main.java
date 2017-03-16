@@ -1,4 +1,5 @@
 import javax.mail.MessagingException;
+import java.io.File;
 import java.util.Scanner;
 
 /**
@@ -52,7 +53,7 @@ public class Main {
     private static void sendMsg(){
         try {
 
-            cc.setMessage( asunto(), mensaje());
+            cc.setMessage( asunto(), mensaje(), fichero() );
 
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -68,5 +69,24 @@ public class Main {
         System.out.println("Escribe el mensaje: ( todo en una linea )");
         String str = instr.nextLine();
         return str;
+    }
+
+    private static String fichero(){
+        char c;
+        do{
+            System.out.println("Desea añadir un fichero? (s/n)");
+            c = instr.next().charAt( 0 );
+        }while( c != 's' && c != 'n' );
+        String str;
+        File f;
+        if( c == 's' ){
+            do{
+                System.out.println("Indica el path del fichero:");
+                str = instr.nextLine();
+                f = new File(str);
+            }while( !f.exists() );
+            return str;
+        }
+        return null;
     }
 }
