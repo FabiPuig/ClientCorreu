@@ -60,6 +60,8 @@ public class ClientCorreu {
         genMailMessage = new MimeMessage( mailSession );
 
         genMailMessage.addRecipient( Message.RecipientType.TO, new InternetAddress( mailReceptor ) );
+        // para algunas cuentas de hotmail hace falta descomentar esta linea
+        //genMailMessage.setFrom( new InternetAddress( mailEmisor ));
         genMailMessage.setSubject( subject );
 
 
